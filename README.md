@@ -1,5 +1,7 @@
 # rgb-hub
 
+Parte 2 da série "projetos de garagem (de quarto)" — [parte 1 foi o carro](https://github.com/leonardobora/ka-obd-lab).
+
 Central de automação via terminal pras luzes RGB (fita LED Monster Smart +
 lâmpada bocal Elgin). As duas rodam no ecossistema Tuya (app Smart
 Life/Tuya Smart por trás), então dá pra controlar as duas com a mesma
