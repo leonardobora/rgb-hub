@@ -1,0 +1,7 @@
+devices.json
+aliases.json
+snapshot.json
+tuya-raw.json
+__pycache__/
+*.pyc
+.venv/

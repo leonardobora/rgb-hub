@@ -1,0 +1,5 @@
+tinytuya
+mss
+numpy
+soundcard
+pystray
