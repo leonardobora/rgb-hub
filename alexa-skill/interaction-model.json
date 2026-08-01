@@ -1,0 +1,109 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "hub de luzes",
+      "intents": [
+        {
+          "name": "SceneIntent",
+          "slots": [{"name": "cena", "type": "LISTA_CENA"}],
+          "samples": [
+            "cena {cena}",
+            "aplicar cena {cena}",
+            "muda para a cena {cena}"
+          ]
+        },
+        {
+          "name": "ColorIntent",
+          "slots": [
+            {"name": "luz", "type": "LISTA_LUZ"},
+            {"name": "cor", "type": "LISTA_COR"}
+          ],
+          "samples": [
+            "cor {cor} na {luz}",
+            "coloca a cor {cor} na {luz}",
+            "{luz} na cor {cor}"
+          ]
+        },
+        {
+          "name": "BrightnessIntent",
+          "slots": [
+            {"name": "luz", "type": "LISTA_LUZ"},
+            {"name": "pct", "type": "AMAZON.NUMBER"}
+          ],
+          "samples": [
+            "brilho {pct} na {luz}",
+            "deixa a {luz} com {pct} por cento de brilho",
+            "luminosidade {pct} na {luz}"
+          ]
+        },
+        {
+          "name": "SyncIntent",
+          "slots": [{"name": "modo", "type": "LISTA_MODO"}],
+          "samples": [
+            "sincroniza com {modo}",
+            "ativa a sincronizacao de {modo}",
+            "modo {modo}"
+          ]
+        },
+        {
+          "name": "ScreenshareIntent",
+          "samples": [
+            "espelha a tela na tv",
+            "inicia o espelhamento",
+            "joga na tv"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": ["ajuda", "o que eu posso falar"]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": ["para", "cancela"]
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": ["cancela"]
+        }
+      ],
+      "types": [
+        {
+          "name": "LISTA_CENA",
+          "values": [
+            {"name": {"value": "gaming", "synonyms": ["modo game", "jogo"]}},
+            {"name": {"value": "foco"}},
+            {"name": {"value": "alerta", "synonyms": ["modo alerta"]}}
+          ]
+        },
+        {
+          "name": "LISTA_LUZ",
+          "values": [
+            {"name": {"value": "fita", "synonyms": ["fita de led", "led"]}},
+            {"name": {"value": "quarto"}}
+          ]
+        },
+        {
+          "name": "LISTA_COR",
+          "values": [
+            {"name": {"value": "vermelho"}},
+            {"name": {"value": "verde"}},
+            {"name": {"value": "azul"}},
+            {"name": {"value": "amarelo"}},
+            {"name": {"value": "branco"}},
+            {"name": {"value": "roxo"}},
+            {"name": {"value": "rosa"}},
+            {"name": {"value": "ciano"}},
+            {"name": {"value": "laranja"}}
+          ]
+        },
+        {
+          "name": "LISTA_MODO",
+          "values": [
+            {"name": {"value": "screen", "synonyms": ["tela", "modo tela"]}},
+            {"name": {"value": "audio", "synonyms": ["audio", "musica", "modo audio"]}}
+          ]
+        }
+      ]
+    }
+  }
+}
