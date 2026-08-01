@@ -5,3 +5,5 @@ tuya-raw.json
 __pycache__/
 *.pyc
 .venv/
+.env
+*.local
