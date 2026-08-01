@@ -56,8 +56,8 @@ Alexa (Echo Dot)
    - `POST /brightness` `{name, pct}`
    - `POST /sync` `{mode: screen|audio}`
    - `POST /screenshare`
-   - `POST /tv` `{action: on|off|volume, value?}` (controle local
-     webOS via `aiopylgtv`)
+    - `POST /tv` `{action: on|off|volume, value?}` (controle local
+      webOS via `aiowebostv`)
    - Erros: JSON `{error: "<mensagem amigável>"}` com status adequado.
 2. **Skill custom** no Alexa Developer Console (ASK):
    - `SceneIntent` (slot `cena`) → `POST /scene`
@@ -86,7 +86,7 @@ Alexa (Echo Dot)
 
 ## Automações PC ↔ TV
 
-- `POST /tv` controla on/off/volume/input da TV via `aiopylgtv`
+- `POST /tv` controla on/off/volume/input da TV via `aiowebostv`
   (controle local, independente da nuvem).
 - Screenshare espelha o monitor primário na TV (ex: jogar no sofá).
 - Cenas do hub não controlam a TV nesta versão (fica para evolução).
