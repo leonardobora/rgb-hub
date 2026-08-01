@@ -3,3 +3,8 @@ mss
 numpy
 soundcard
 pystray
+fastapi
+uvicorn
+python-dotenv
+aiowebostv
+httpx

@@ -158,3 +158,57 @@ pasta `shell:startup`.
   `tuya-cloudcutter` pra rodar firmware local (Tasmota/OpenBeken) sem
   depender da nuvem nunca mais — mais arriscado (pode inutilizar o
   dispositivo se o firmware errado for usado), fica como opção futura.
+
+## Servidor + skill Alexa (integração Alexa + TV LG)
+
+### API local
+
+```
+python server.py        # sobe em http://127.0.0.1:8000 (HUB_PORT pra trocar)
+```
+
+Endpoints (todos `POST`, JSON):
+
+| Rota | Corpo | Efeito |
+| --- | --- | --- |
+| `/scene` | `{"name":"gaming"}` | aplica uma cena do `scenes.py` |
+| `/color` | `{"name":"fita","hex":"FF00FF"}` | cor de uma luz |
+| `/brightness` | `{"name":"quarto","pct":60}` | brilho 0-100 |
+| `/sync` | `{"mode":"screen"}` / `{"mode":"off"}` | liga/desliga sync de tela ou áudio |
+| `/screenshare` | `{}` | acorda a TV e abre o painel Miracast |
+| `/tv` | `{"action":"on"}` / `{"action":"off"}` / `{"action":"volume","value":20}` | controla a TV LG local |
+
+Erros voltam como `{"error":"<mensagem amigável>"}`.
+
+### Túnel (cloudflared)
+
+O `server.py` escuta só em `127.0.0.1`. Pra Alexa alcançar, exponha com
+um **named tunnel** (hostname fixo — a URL não pode mudar a cada reinício):
+
+```
+cloudflared tunnel login
+cloudflared tunnel create rgb-hub
+cloudflared tunnel route dns rgb-hub hub.seudominio.com
+cloudflared tunnel run rgb-hub
+```
+
+O `cloudflared.yml` precisa apontar pra `http://127.0.0.1:8000`
+(`ingress` → `service: http://127.0.0.1:8000`). Pronto, a URL estável é
+`https://hub.seudominio.com`.
+
+### Skill Alexa (ASK)
+
+1. Crie a skill em developer.amazon.com/alexa/console/ask (pt-BR).
+2. Cole `alexa-skill/interaction-model.json` no editor JSON do modelo de interação e salve/build.
+3. Backend: escolha "AWS Lambda", crie a função com runtime Python 3.12 e suba `lambda_handler.py`.
+4. Defina a variável de ambiente `HUB_URL=https://hub.seudominio.com` na Lambda.
+5. Teste no simulador: "cena gaming", "cor vermelha na fita", "brilho 50 no quarto".
+
+### Testes
+
+```
+pip install -r requirements.txt
+pytest
+```
+
+Os testes mockam luzes, TV e sync — não precisam de hardware real.
