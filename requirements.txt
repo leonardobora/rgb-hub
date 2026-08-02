@@ -8,3 +8,6 @@ uvicorn
 python-dotenv
 aiowebostv
 httpx
+pycaw
+psutil
+comtypes

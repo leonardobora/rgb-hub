@@ -5,15 +5,23 @@ Uso:
     python tray.py
 
 Clique com botao direito no icone (perto do relogio) pra abrir o menu.
-O icone e um circulo dividido em 3 (vermelho/verde/azul) pra ser facil
-de achar entre os outros -- nao e so uma bolinha cinza generica. O
-ponto no centro mostra o estado: cinza = parado, branco = sincronizando.
+O icone e um circulo dividido em 3 (vermelho/verde/azul em 3 fatias) pra
+ser facil de achar entre os outros. O ponto no centro mostra o estado:
+cinza = parado, branco = sincronizando.
+
+Menu de audio permite escolher:
+- App de audio (filtra qual app a cena reage)
+- Tema de cor (paleta de mapeamento frequencia -> cor)
+- Sensibilidade (limiar minimo de energia pra reagir)
+- Transicao (suavizacao das mudancas de cor)
 """
 import threading
+import webbrowser
 
 import pystray
 from PIL import Image, ImageDraw
 
+from color_themes import THEMES
 from lights import LightHub
 from reactive import run as reactive_run
 from scenes import SCENES, apply_scene
@@ -22,6 +30,28 @@ _hub = None
 _thread = None
 _stop_event = threading.Event()
 _current_mode = None  # None | "screen" | "audio"
+_current_theme = "arco-iris"
+_current_threshold = 0.02
+_current_app = None  # None = todos os apps
+_current_smooth = 0.7  # suavizacao de cor (0.0-0.95)
+
+REPO_URL = "https://github.com/leonardobora/rgb-hub"
+BUYMEACOFFEE_URL = "https://buymeacoffee.com/leonardobora"
+
+SENSITIVITY_OPTIONS = [
+    ("20 (baixa)", 0.2),
+    ("40", 0.4),
+    ("60", 0.6),
+    ("80 (alta)", 0.8),
+]
+
+SMOOTH_OPTIONS = [
+    ("Sem suavização", 0.0),
+    ("Sutil", 0.4),
+    ("Normal", 0.7),
+    ("Muito suave", 0.85),
+    ("Ultra suave", 0.92),
+]
 
 
 def _icon_image(active):
@@ -56,12 +86,16 @@ def _start(mode, icon):
     else:
         from audio_source import audio_colors
 
-        source = audio_colors()
+        source = audio_colors(
+            theme=_current_theme,
+            threshold=_current_threshold,
+            target_app=_current_app,
+        )
 
     _thread = threading.Thread(
         target=reactive_run,
         args=(_hub, _light_names(), source),
-        kwargs={"stop_event": _stop_event},
+        kwargs={"stop_event": _stop_event, "smooth": _current_smooth},
         daemon=True,
     )
     _current_mode = mode
@@ -89,6 +123,40 @@ def _toggle_audio(icon, item):
     _start("audio", icon) if _current_mode != "audio" else _stop_sync(icon)
 
 
+def _set_theme(name):
+    def handler(icon, item):
+        global _current_theme
+        _current_theme = name
+    return handler
+
+
+def _set_sensitivity(value):
+    def handler(icon, item):
+        global _current_threshold
+        _current_threshold = value
+    return handler
+
+
+def _set_smooth(value):
+    def handler(icon, item):
+        global _current_smooth
+        _current_smooth = value
+    return handler
+
+
+def _set_app(name):
+    def handler(icon, item):
+        global _current_app
+        _current_app = name
+    return handler
+
+
+def _open_url(url):
+    def handler(icon, item):
+        webbrowser.open(url)
+    return handler
+
+
 def _scene_handler(name):
     def handler(icon, item):
         _stop_sync(icon)
@@ -102,6 +170,76 @@ def _quit(icon, item):
     icon.stop()
 
 
+def _build_audio_app_menu():
+    """Build app submenu with active audio sessions."""
+    try:
+        from audio_sessions import list_active_sessions
+        sessions = list_active_sessions()
+    except Exception:
+        sessions = []
+
+    items = [
+        pystray.MenuItem(
+            "Todos (sistema)",
+            _set_app(None),
+            checked=lambda i: _current_app is None,
+        ),
+    ]
+
+    for s in sessions:
+        display = s.display_name.title()
+        items.append(pystray.MenuItem(
+            display,
+            _set_app(s.name),
+            checked=lambda i, n=s.name: _current_app == n,
+        ))
+
+    if not sessions:
+        items.append(pystray.MenuItem(
+            "(nenhum app ativo)",
+            None,
+            enabled=False,
+        ))
+
+    return items
+
+
+def _build_theme_menu():
+    """Build theme submenu."""
+    items = []
+    for key, theme in THEMES.items():
+        items.append(pystray.MenuItem(
+            theme.name,
+            _set_theme(key),
+            checked=lambda i, k=key: _current_theme == k,
+        ))
+    return items
+
+
+def _build_sensitivity_menu():
+    """Build sensitivity submenu."""
+    items = []
+    for label, value in SENSITIVITY_OPTIONS:
+        items.append(pystray.MenuItem(
+            label,
+            _set_sensitivity(value),
+            checked=lambda i, v=value: _current_threshold == v,
+        ))
+    return items
+
+
+def _build_smooth_menu():
+    """Build smoothing submenu."""
+    items = []
+    for label, value in SMOOTH_OPTIONS:
+        items.append(pystray.MenuItem(
+            label,
+            _set_smooth(value),
+            checked=lambda i, v=value: abs(_current_smooth - v) < 0.01,
+        ))
+    return items
+
+
 def main():
     global _hub
     _hub = LightHub()
@@ -111,8 +249,15 @@ def main():
     menu = pystray.Menu(
         pystray.MenuItem("Sync Tela", _toggle_screen, checked=lambda i: _current_mode == "screen"),
         pystray.MenuItem("Sync Áudio", _toggle_audio, checked=lambda i: _current_mode == "audio"),
+        pystray.MenuItem("App de Áudio", pystray.Menu(*_build_audio_app_menu())),
+        pystray.MenuItem("Tema de Cor", pystray.Menu(*_build_theme_menu())),
+        pystray.MenuItem("Sensibilidade", pystray.Menu(*_build_sensitivity_menu())),
+        pystray.MenuItem("Transição", pystray.Menu(*_build_smooth_menu())),
         pystray.Menu.SEPARATOR,
         *scene_items,
+        pystray.Menu.SEPARATOR,
+        pystray.MenuItem("⭐ Repo no GitHub", _open_url(REPO_URL)),
+        pystray.MenuItem("☕ Buy Me a Coffee", _open_url(BUYMEACOFFEE_URL)),
         pystray.Menu.SEPARATOR,
         pystray.MenuItem("Sair", _quit),
     )

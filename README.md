@@ -129,9 +129,36 @@ cenas, e **Sair**. Cinza = parado, verde = sincronizando. Cada modo
 roda numa thread com um `threading.Event` de parada — só um modo ativo
 por vez (ativar um desliga o outro automaticamente).
 
-Pra deixar ele abrindo sozinho com o Windows, cria um atalho de
-`pythonw.exe tray.py` (o `pythonw` evita abrir janela de console) na
-pasta `shell:startup`.
+#### Auto-start sem janela de console
+
+Duplo clique em `start-tray.vbs` pra iniciar o rgb-hub na bandeja
+sem nenhuma janela de console. Pra auto-start com o Windows, cria
+um atalho de `start-tray.vbs` na pasta `shell:startup`.
+
+#### Configuração de áudio no tray
+
+O menu de áudio agora tem 3 submenus:
+
+- **App de Áudio** — lista apps que estão produzindo som no momento
+  (detecta via Windows Core Audio API). Seleciona "Todos" pra reagir
+  a tudo, ou um app específico (ex: Chrome, Spotify). Só aparece
+  áudio daquele app na reação da luz.
+- **Tema de Cor** — paletas pré-definidas:
+  - Arco-íris (grave=verde, médio=verde, agudo=azul — padrão)
+  - Fogo (tons quentes, agudo=branco)
+  - Oceano (tons frios, agudo=espuma)
+  - Neon (magenta/ciano/verde choque)
+  - Pastel (cores suaves)
+  - Monocromático (só brilho, sem cor)
+- **Sensibilidade** — limiar mínimo de energia pra reagir (20/40/60/80).
+  Abaixo do limiar, a luz fica preta (ignora ruido de fundo).
+- **Transição** — suavização das mudanças de cor (Sem suavização /
+  Sutil / Normal / Muito suave / Ultra suave). Quanto mais suave,
+  mais lenta a transição entre cores — ideal pra ambiente relaxante
+  ao invés de efeito de balada.
+
+O menu também tem links pra [Repo no GitHub](https://github.com/leonardobora/rgb-hub)
+e [Buy Me a Coffee](https://buymeacoffee.com/leonardobora).
 
 ## Arquivos
 
@@ -144,10 +171,17 @@ pasta `shell:startup`.
   pixels sem saturação, boost de saturação).
 - `audio_source.py` — gera cores a partir do áudio do sistema (FFT em
   3 faixas), via loopback do alto-falante, com flash de batida embutido.
+  Suporta temas de cor, filtragem por app, e limiar de sensibilidade.
+- `audio_sessions.py` — detecta sessões de áudio ativas no Windows
+  via Core Audio API (pycaw), pra filtrar por aplicativo.
+- `color_themes.py` — paletas de cores pre-definidas (Arco-íris, Fogo,
+  Oceano, Neon, Pastel, Monocromático).
 - `reactive.py` — loop genérico que aplica uma fonte de cor nas luzes,
-  com rate limit, dedup e suporte a parada via `threading.Event`.
+  com rate limit, dedup, suavização de cores (interpolção linear) e
+  suporte a parada via `threading.Event`.
 - `tray.py` — ícone na bandeja do Windows pra ligar/desligar tudo isso
-  sem terminal aberto.
+  sem terminal aberto, com menus de configuração de áudio.
+- `start-tray.vbs` — wrapper sem console pra auto-start na bandeja.
 
 ## Próximos passos possíveis
 
