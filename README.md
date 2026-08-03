@@ -1,4 +1,21 @@
-# rgb-hub
+<p align="center">
+  <img src="banner.png" alt="RGB-Hub" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/leonardobora/rgb-hub/actions"><img src="https://github.com/leonardobora/rgb-hub/actions/workflows/ci.yml/badge.svg" alt="Build all"></a>
+  <a href="https://github.com/leonardobora/rgb-hub/stargazers"><img src="https://img.shields.io/github/stars/leonardobora/rgb-hub?style=flat&logo=github&color=f4c542" alt="GitHub Repo stars"></a>
+  <a href="https://github.com/leonardobora/rgb-hub/blob/master/LICENSE"><img src="https://img.shields.io/github/license/leonardobora/rgb-hub" alt="License"></a>
+  <a href="https://github.com/leonardobora/rgb-hub/issues"><img src="https://img.shields.io/github/issues/leonardobora/rgb-hub" alt="Issues"></a>
+  <a href="https://github.com/leonardobora/rgb-hub/pulls"><img src="https://img.shields.io/github/issues-pr/leonardobora/rgb-hub" alt="Pull Requests"></a>
+</p>
+
+<p align="center">
+  <b>Audio-reactive + screen-sync smart lighting for Tuya bulbs</b><br>
+  <sub>Control your LED strip and smart bulbs in real-time via local network — no cloud dependency after setup.</sub>
+</p>
+
+---
 
 Parte 2 da série "projetos de garagem (de quarto)" — [parte 1 foi o carro](https://github.com/leonardobora/ka-obd-lab).
 
@@ -144,12 +161,9 @@ O menu de áudio agora tem 3 submenus:
   a tudo, ou um app específico (ex: Chrome, Spotify). Só aparece
   áudio daquele app na reação da luz.
 - **Tema de Cor** — paletas pré-definidas:
-  - Arco-íris (grave=verde, médio=verde, agudo=azul — padrão)
-  - Fogo (tons quentes, agudo=branco)
-  - Oceano (tons frios, agudo=espuma)
-  - Neon (magenta/ciano/verde choque)
-  - Pastel (cores suaves)
-  - Monocromático (só brilho, sem cor)
+  - **Espectro:** Arco-íris, Fogo, Oceano, Neon, Pastel, Monocromático
+  - **Cores:** Vermelho, Azul, Verde, Branco, Roxo, Rosa, Amarelo, Ciano, Laranja
+  - Cores sólidas reagem ao volume do áudio (brilho pulsante na cor selecionada)
 - **Sensibilidade** — limiar mínimo de energia pra reagir (20/40/60/80).
   Abaixo do limiar, a luz fica preta (ignora ruido de fundo).
 - **Transição** — suavização das mudanças de cor (Sem suavização /
@@ -174,8 +188,10 @@ e [Buy Me a Coffee](https://buymeacoffee.com/leonardobora).
   Suporta temas de cor, filtragem por app, e limiar de sensibilidade.
 - `audio_sessions.py` — detecta sessões de áudio ativas no Windows
   via Core Audio API (pycaw), pra filtrar por aplicativo.
-- `color_themes.py` — paletas de cores pre-definidas (Arco-íris, Fogo,
-  Oceano, Neon, Pastel, Monocromático).
+- `color_themes.py` — paletas de cores pre-definidas (15 temas):
+  espectro (Arco-íris, Fogo, Oceano, Neon, Pastel, Mono) e
+  cores sólidas (Vermelho, Azul, Verde, Branco, Roxo, Rosa,
+  Amarelo, Ciano, Laranja).
 - `reactive.py` — loop genérico que aplica uma fonte de cor nas luzes,
   com rate limit, dedup, suavização de cores (interpolção linear) e
   suporte a parada via `threading.Event`.
