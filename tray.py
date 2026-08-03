@@ -16,6 +16,7 @@ Menu de audio permite escolher:
 - Transicao (suavizacao das mudancas de cor)
 """
 import threading
+import time
 import webbrowser
 
 import pystray
@@ -34,6 +35,7 @@ _current_theme = "arco-iris"
 _current_threshold = 0.02
 _current_app = None  # None = todos os apps
 _current_smooth = 0.7  # suavizacao de cor (0.0-0.95)
+_icon_ref = None  # referencia pro icon pra atualizar titulo
 
 REPO_URL = "https://github.com/leonardobora/rgb-hub"
 BUYMEACOFFEE_URL = "https://buymeacoffee.com/leonardobora"
@@ -53,6 +55,10 @@ SMOOTH_OPTIONS = [
     ("Ultra suave", 0.92),
 ]
 
+# separa temas em categorias pro menu
+SPECTRUM_THEMES = ["arco-iris", "fogo", "oceano", "neon", "pastel", "mono"]
+COLOR_THEMES = ["vermelho", "azul", "verde", "branco", "roxo", "rosa", "amarelo", "ciano", "laranja"]
+
 
 def _icon_image(active):
     """Circulo RGB (vermelho/verde/azul em 3 fatias) -- se destaca dos
@@ -68,6 +74,14 @@ def _icon_image(active):
     dot_color = "white" if active else (90, 90, 90)
     draw.ellipse((24, 24, 40, 40), fill=dot_color, outline="black", width=1)
     return img
+
+
+def _notify(icon, message, duration=2.0):
+    """Feedback visual: atualiza titulo do tray por `duration` segundos."""
+    if icon is not None:
+        original_title = icon.title
+        icon.title = f"rgb-hub: {message}"
+        threading.Timer(duration, lambda: setattr(icon, 'title', original_title)).start()
 
 
 def _light_names():
@@ -101,7 +115,8 @@ def _start(mode, icon):
     _current_mode = mode
     _thread.start()
     icon.icon = _icon_image(True)
-    icon.title = f"rgb-hub: sync {mode}"
+    theme_name = THEMES[_current_theme].name
+    icon.title = f"rgb-hub: {theme_name}"
 
 
 def _stop_sync(icon=None):
@@ -127,6 +142,11 @@ def _set_theme(name):
     def handler(icon, item):
         global _current_theme
         _current_theme = name
+        theme_name = THEMES[name].name
+        _notify(icon, f"Tema: {theme_name}")
+        # se ja ta sincronizando, reinicia com o novo tema
+        if _current_mode == "audio":
+            _start("audio", icon)
     return handler
 
 
@@ -134,6 +154,7 @@ def _set_sensitivity(value):
     def handler(icon, item):
         global _current_threshold
         _current_threshold = value
+        _notify(icon, f"Sensibilidade: {int(value * 100)}")
     return handler
 
 
@@ -141,6 +162,8 @@ def _set_smooth(value):
     def handler(icon, item):
         global _current_smooth
         _current_smooth = value
+        label = next((l for l, v in SMOOTH_OPTIONS if abs(v - value) < 0.01), "?")
+        _notify(icon, f"Transição: {label}")
     return handler
 
 
@@ -148,6 +171,8 @@ def _set_app(name):
     def handler(icon, item):
         global _current_app
         _current_app = name
+        display = name.title() if name else "Todos"
+        _notify(icon, f"App: {display}")
     return handler
 
 
@@ -161,7 +186,7 @@ def _scene_handler(name):
     def handler(icon, item):
         _stop_sync(icon)
         apply_scene(_hub, name)
-
+        _notify(icon, f"Cena: {name}")
     return handler
 
 
@@ -204,10 +229,24 @@ def _build_audio_app_menu():
     return items
 
 
-def _build_theme_menu():
-    """Build theme submenu."""
+def _build_spectrum_theme_menu():
+    """Build spectrum theme submenu (rainbow, fire, ocean, etc.)."""
     items = []
-    for key, theme in THEMES.items():
+    for key in SPECTRUM_THEMES:
+        theme = THEMES[key]
+        items.append(pystray.MenuItem(
+            theme.name,
+            _set_theme(key),
+            checked=lambda i, k=key: _current_theme == k,
+        ))
+    return items
+
+
+def _build_color_theme_menu():
+    """Build solid color theme submenu (vermelho, azul, verde, etc.)."""
+    items = []
+    for key in COLOR_THEMES:
+        theme = THEMES[key]
         items.append(pystray.MenuItem(
             theme.name,
             _set_theme(key),
@@ -241,7 +280,7 @@ def _build_smooth_menu():
 
 
 def main():
-    global _hub
+    global _hub, _icon_ref
     _hub = LightHub()
 
     scene_items = [pystray.MenuItem(f"Cena: {name}", _scene_handler(name)) for name in SCENES]
@@ -249,10 +288,12 @@ def main():
     menu = pystray.Menu(
         pystray.MenuItem("Sync Tela", _toggle_screen, checked=lambda i: _current_mode == "screen"),
         pystray.MenuItem("Sync Áudio", _toggle_audio, checked=lambda i: _current_mode == "audio"),
-        pystray.MenuItem("App de Áudio", pystray.Menu(*_build_audio_app_menu())),
-        pystray.MenuItem("Tema de Cor", pystray.Menu(*_build_theme_menu())),
-        pystray.MenuItem("Sensibilidade", pystray.Menu(*_build_sensitivity_menu())),
-        pystray.MenuItem("Transição", pystray.Menu(*_build_smooth_menu())),
+        pystray.Menu.SEPARATOR,
+        pystray.MenuItem("🎨 Espectro", pystray.Menu(*_build_spectrum_theme_menu())),
+        pystray.MenuItem("🔴 Cores", pystray.Menu(*_build_color_theme_menu())),
+        pystray.MenuItem("📱 App de Áudio", pystray.Menu(*_build_audio_app_menu())),
+        pystray.MenuItem("🎚 Sensibilidade", pystray.Menu(*_build_sensitivity_menu())),
+        pystray.MenuItem("✨ Transição", pystray.Menu(*_build_smooth_menu())),
         pystray.Menu.SEPARATOR,
         *scene_items,
         pystray.Menu.SEPARATOR,
@@ -263,6 +304,7 @@ def main():
     )
 
     icon = pystray.Icon("rgb-hub", _icon_image(False), "rgb-hub: parado", menu)
+    _icon_ref = icon
     icon.run()
 
 

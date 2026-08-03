@@ -57,13 +57,90 @@ def _mono(bass, mid, treble):
     return v, v, v
 
 
+def _solid(r_base, g_base, b_base):
+    """Cria tema de cor solida: volume do audio controla brilho
+    de uma cor fixa. Todos os canais mudam juntos."""
+    def _apply(bass, mid, treble):
+        brightness = (bass + mid + treble) / 3.0
+        return _clamp(r_base * brightness), _clamp(g_base * brightness), _clamp(b_base * brightness)
+    return _apply
+
+
+def _color_sync(r_base, g_base, b_base):
+    """Cena de cor: volume controla brilho, mas com resposta mais
+    suave pra ficar mais atmosferico (usado nas cenas estaticas)."""
+    def _apply(bass, mid, treble):
+        brightness = (bass + mid + treble) / 3.0
+        return _clamp(r_base * brightness), _clamp(g_base * brightness), _clamp(b_base * brightness)
+    return _apply
+
+
+# --- Cenas de cor (audio reativo com cor solida) ---
+
+def _vermelho(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return _clamp(255 * brightness), 0, 0
+
+
+def _azul(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return 0, 0, _clamp(255 * brightness)
+
+
+def _verde(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return 0, _clamp(255 * brightness), 0
+
+
+def _branco(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    v = _clamp(255 * brightness)
+    return v, v, v
+
+
+def _roxo(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return _clamp(180 * brightness), 0, _clamp(255 * brightness)
+
+
+def _rosa(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return _clamp(255 * brightness), 0, _clamp(128 * brightness)
+
+
+def _amarelo(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return _clamp(255 * brightness), _clamp(200 * brightness), 0
+
+
+def _ciano(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return 0, _clamp(255 * brightness), _clamp(255 * brightness)
+
+
+def _laranja(bass, mid, treble):
+    brightness = (bass + mid + treble) / 3.0
+    return _clamp(255 * brightness), _clamp(100 * brightness), 0
+
+
 THEMES: dict[str, Theme] = {
+    # Espectro (cores diferentes por banda)
     "arco-iris": Theme("Arco-íris", _rainbow),
     "fogo": Theme("Fogo", _fire),
     "oceano": Theme("Oceano", _ocean),
     "neon": Theme("Neon", _neon),
     "pastel": Theme("Pastel", _pastel),
     "mono": Theme("Monocromático", _mono),
+    # Cenas de cor (audio controla brilho de cor solida)
+    "vermelho": Theme("Vermelho", _vermelho),
+    "azul": Theme("Azul", _azul),
+    "verde": Theme("Verde", _verde),
+    "branco": Theme("Branco", _branco),
+    "roxo": Theme("Roxo", _roxo),
+    "rosa": Theme("Rosa", _rosa),
+    "amarelo": Theme("Amarelo", _amarelo),
+    "ciano": Theme("Ciano", _ciano),
+    "laranja": Theme("Laranja", _laranja),
 }
 
 

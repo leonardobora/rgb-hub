@@ -2,7 +2,11 @@ from color_themes import THEMES, Theme, get_theme
 
 
 def test_all_themes_exist():
-    expected = {"arco-iris", "fogo", "oceano", "neon", "pastel", "mono"}
+    expected = {
+        "arco-iris", "fogo", "oceano", "neon", "pastel", "mono",
+        "vermelho", "azul", "verde", "branco", "roxo", "rosa",
+        "amarelo", "ciano", "laranja",
+    }
     assert set(THEMES.keys()) == expected
 
 
@@ -66,3 +70,56 @@ def test_get_theme_returns_default_for_unknown():
 def test_get_theme_returns_correct_theme():
     theme = get_theme("fogo")
     assert theme.name == "Fogo"
+
+
+def test_red_theme_is_only_red():
+    theme = get_theme("vermelho")
+    r, g, b = theme.apply(200, 100, 50)
+    assert r > 0
+    assert g == 0
+    assert b == 0
+
+
+def test_blue_theme_is_only_blue():
+    theme = get_theme("azul")
+    r, g, b = theme.apply(200, 100, 50)
+    assert r == 0
+    assert g == 0
+    assert b > 0
+
+
+def test_green_theme_is_only_green():
+    theme = get_theme("verde")
+    r, g, b = theme.apply(200, 100, 50)
+    assert r == 0
+    assert g > 0
+    assert b == 0
+
+
+def test_white_theme_is_grayscale():
+    theme = get_theme("branco")
+    r, g, b = theme.apply(200, 100, 50)
+    assert r == g == b
+
+
+def test_purple_theme_has_red_and_blue():
+    theme = get_theme("roxo")
+    r, g, b = theme.apply(200, 100, 50)
+    assert r > 0
+    assert g == 0
+    assert b > 0
+
+
+def test_cyan_theme_has_green_and_blue():
+    theme = get_theme("ciano")
+    r, g, b = theme.apply(200, 100, 50)
+    assert r == 0
+    assert g > 0
+    assert b > 0
+
+
+def test_color_themes_silence_is_black():
+    for name in ["vermelho", "azul", "verde", "branco", "roxo", "rosa", "amarelo", "ciano", "laranja"]:
+        theme = get_theme(name)
+        r, g, b = theme.apply(0, 0, 0)
+        assert r == 0 and g == 0 and b == 0, f"{name} should be black at silence"
