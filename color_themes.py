@@ -1,12 +1,12 @@
 """Paletas de cores pre-definidas mapeando bandas de frequencia (grave/
-medio/agudo) pra RGB. Cada tema recebe valores das bandas em 0..255
-(escala fixa com gain) e retorna (r, g, b) em 0..255.
+medio/agudo) pra RGB. Cada tema recebe valores das bandas em 0..1
+(escala normalizada com gain) e retorna (r, g, b) em 0..255.
 """
 from dataclasses import dataclass
 from typing import Callable
 
 
-ThemeFunc = Callable[[int, int, int], tuple[int, int, int]]
+ThemeFunc = Callable[[float, float, float], tuple[int, int, int]]
 
 
 @dataclass
@@ -19,108 +19,92 @@ def _clamp(value):
     return int(max(0, min(255, value)))
 
 
+# --- Espectro (cores diferentes por banda, input 0..1, output 0..255) ---
+
 def _rainbow(bass, mid, treble):
-    return bass, mid, treble
+    return _clamp(bass * 255), _clamp(mid * 255), _clamp(treble * 255)
 
 
 def _fire(bass, mid, treble):
     r = bass * 0.7 + mid * 0.3
     g = mid * 0.6 + treble * 0.4
     b = treble * 0.3
-    return _clamp(r), _clamp(g), _clamp(b)
+    return _clamp(r * 255), _clamp(g * 255), _clamp(b * 255)
 
 
 def _ocean(bass, mid, treble):
     r = bass * 0.1 + treble * 0.2
     g = mid * 0.6 + treble * 0.5
     b = bass * 0.7 + mid * 0.7 + treble * 0.9
-    return _clamp(r), _clamp(g), _clamp(b)
+    return _clamp(r * 255), _clamp(g * 255), _clamp(b * 255)
 
 
 def _neon(bass, mid, treble):
     r = bass * 0.9
     g = treble * 0.9
     b = bass * 0.3 + mid * 0.9
-    return _clamp(r), _clamp(g), _clamp(b)
+    return _clamp(r * 255), _clamp(g * 255), _clamp(b * 255)
 
 
 def _pastel(bass, mid, treble):
     r = bass * 0.6 + mid * 0.2 + treble * 0.1
     g = mid * 0.2 + treble * 0.5
     b = bass * 0.3 + mid * 0.5 + treble * 0.4
-    return _clamp(r), _clamp(g), _clamp(b)
+    return _clamp(r * 255), _clamp(g * 255), _clamp(b * 255)
 
 
 def _mono(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    v = _clamp(brightness)
+    v = _clamp(brightness * 255)
     return v, v, v
 
 
-def _solid(r_base, g_base, b_base):
-    """Cria tema de cor solida: volume do audio controla brilho
-    de uma cor fixa. Todos os canais mudam juntos."""
-    def _apply(bass, mid, treble):
-        brightness = (bass + mid + treble) / 3.0
-        return _clamp(r_base * brightness), _clamp(g_base * brightness), _clamp(b_base * brightness)
-    return _apply
-
-
-def _color_sync(r_base, g_base, b_base):
-    """Cena de cor: volume controla brilho, mas com resposta mais
-    suave pra ficar mais atmosferico (usado nas cenas estaticas)."""
-    def _apply(bass, mid, treble):
-        brightness = (bass + mid + treble) / 3.0
-        return _clamp(r_base * brightness), _clamp(g_base * brightness), _clamp(b_base * brightness)
-    return _apply
-
-
-# --- Cenas de cor (audio reativo com cor solida) ---
+# --- Cenas de cor (audio reativo com cor solida, input 0..1) ---
 
 def _vermelho(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return _clamp(255 * brightness), 0, 0
+    return _clamp(brightness * 255), 0, 0
 
 
 def _azul(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return 0, 0, _clamp(255 * brightness)
+    return 0, 0, _clamp(brightness * 255)
 
 
 def _verde(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return 0, _clamp(255 * brightness), 0
+    return 0, _clamp(brightness * 255), 0
 
 
 def _branco(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    v = _clamp(255 * brightness)
+    v = _clamp(brightness * 255)
     return v, v, v
 
 
 def _roxo(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return _clamp(180 * brightness), 0, _clamp(255 * brightness)
+    return _clamp(brightness * 180), 0, _clamp(brightness * 255)
 
 
 def _rosa(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return _clamp(255 * brightness), 0, _clamp(128 * brightness)
+    return _clamp(brightness * 255), 0, _clamp(brightness * 128)
 
 
 def _amarelo(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return _clamp(255 * brightness), _clamp(200 * brightness), 0
+    return _clamp(brightness * 255), _clamp(brightness * 200), 0
 
 
 def _ciano(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return 0, _clamp(255 * brightness), _clamp(255 * brightness)
+    return 0, _clamp(brightness * 255), _clamp(brightness * 255)
 
 
 def _laranja(bass, mid, treble):
     brightness = (bass + mid + treble) / 3.0
-    return _clamp(255 * brightness), _clamp(100 * brightness), 0
+    return _clamp(brightness * 255), _clamp(brightness * 100), 0
 
 
 THEMES: dict[str, Theme] = {

@@ -76,10 +76,11 @@ def audio_colors(gain=1.0, beat_detect=True, beat_sensitivity=1.6,
                 mid_smooth = mid_smooth * s + mid_norm * (1.0 - s)
                 treble_smooth = treble_smooth * s + treble_norm * (1.0 - s)
 
-            # escala 0..1 -> 0..255
-            r = int(max(0, min(255, bass_smooth * gain * 255)))
-            g = int(max(0, min(255, mid_smooth * gain * 255)))
-            b = int(max(0, min(255, treble_smooth * gain * 255)))
+            # escala 0..1 -> 0..1 (temas recebem 0..1, nao 0..255)
+            # bandas ja normalizadas por pico, gain ajusta sensibilidade
+            r = bass_smooth * gain
+            g = mid_smooth * gain
+            b = treble_smooth * gain
 
             # checa app de audio periodicamente
             block_count += 1
@@ -93,7 +94,7 @@ def audio_colors(gain=1.0, beat_detect=True, beat_sensitivity=1.6,
                 yield (0, 0, 0)
                 continue
 
-            # aplica tema de cor
+            # aplica tema de cor (recebe 0..1, retorna 0..255)
             r, g, b = color_func(r, g, b)
 
             # deteccao de batida
