@@ -1,149 +1,151 @@
-<mxfile host="app.diagrams.net">
-  <diagram id="rgb-hub-arch" name="Architecture">
-    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-08-02T03:59:00.000Z" agent="5.0" etag="abc" version="21.0.0" type="device">
+  <diagram id="rgb-hub-arch" name="Arquitetura">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
       <root>
-        <mxCell id="0"/>
-        <mxCell id="1" parent="0"/>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
 
-        <mxCell id="title" value="rgb-hub — Architecture" style="text;html=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacingTop=10;" vertex="1" parent="1">
-          <mxGeometry x="540" y="20" width="520" height="40" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="layer1" value="User Interface" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="80" width="160" height="30" as="geometry"/>
-        </mxCell>
-        <mxCell id="layer2" value="Core Engine" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="310" width="160" height="30" as="geometry"/>
-        </mxCell>
-        <mxCell id="layer3" value="Hardware" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="540" width="160" height="30" as="geometry"/>
-        </mxCell>
-        <mxCell id="layer4" value="External Services" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="720" width="160" height="30" as="geometry"/>
+        <!-- Titulo -->
+        <mxCell id="title" value="rgb-hub — Arquitetura" style="text;html=1;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="600" height="40" as="geometry" />
         </mxCell>
 
-        <mxCell id="cli" value="cli.py&#xa;Terminal CLI" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="200" y="75" width="130" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="tray" value="tray.py&#xa;System Tray" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="380" y="75" width="130" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="alexa" value="Alexa Skill&#xa;(lambda_handler.py)" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="560" y="75" width="140" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="api" value="server.py&#xa;FastAPI (127.0.0.1:8000)" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="750" y="75" width="150" height="55" as="geometry"/>
+        <!-- Usuario -->
+        <mxCell id="user" value="👤 Usuario" style="shape=mxgraph.basic.smiley;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="60" y="350" width="60" height="60" as="geometry" />
         </mxCell>
 
-        <mxCell id="lights" value="lights.py&#xa;LightHub" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="200" y="305" width="130" height="55" as="geometry"/>
+        <!-- Interface -->
+        <mxCell id="interface_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="280" width="200" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="reactive" value="reactive.py&#xa;Rate limit + dedup" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="380" y="305" width="130" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="scenes" value="scenes.py&#xa;Named scenes" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="560" y="305" width="130" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="screen" value="screen_source.py&#xa;Screen color capture" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="750" y="305" width="150" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="audio" value="audio_source.py&#xa;FFT audio (loopback)" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="950" y="305" width="140" height="55" as="geometry"/>
+        <mxCell id="interface_label" value="Interface" style="text;html=1;fontSize=11;fontStyle=5;align=center;verticalAlign=middle;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="160" y="280" width="200" height="20" as="geometry" />
         </mxCell>
 
-        <mxCell id="monster" value="Fita Monster&#xa;LED Strip" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="250" y="535" width="120" height="55" as="geometry"/>
+        <mxCell id="cli" value="cli.py&#xa;(terminal)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="180" y="310" width="160" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="elgin" value="Bocal Elgin&#xa;Light Bulb" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="430" y="535" width="120" height="55" as="geometry"/>
+        <mxCell id="tray" value="tray.py&#xa;(system tray)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="180" y="375" width="160" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="tv" value="TV LG&#xa;(aiowebostv)" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="610" y="535" width="120" height="55" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="tuya" value="Tuya IoT Cloud&#xa;(iot.tuya.com)" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="250" y="715" width="140" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="smartlife" value="Smart Life App&#xa;(controle inicial)" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="440" y="715" width="130" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="cf" value="Cloudflare Tunnel&#xa;(cloudflared)" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="620" y="715" width="140" height="55" as="geometry"/>
-        </mxCell>
-        <mxCell id="alexa-cloud" value="Alexa Developer&#xa;(developer.amazon.com)" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;verticalAlign=middle;spacing=4;" vertex="1" parent="1">
-          <mxGeometry x="810" y="715" width="150" height="55" as="geometry"/>
+        <mxCell id="alexa" value="Alexa Skill&#xa;(Lambda)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="180" y="440" width="160" height="50" as="geometry" />
         </mxCell>
 
-        <mxCell id="devices" value="devices.json&#xa;(local_key + IP)" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="1">
-          <mxGeometry x="200" y="410" width="120" height="45" as="geometry"/>
-        </mxCell>
-        <mxCell id="aliases" value="aliases.json&#xa;(nomes amigáveis)" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="1">
-          <mxGeometry x="380" y="410" width="130" height="45" as="geometry"/>
+        <!-- Hub -->
+        <mxCell id="hub" value="lightshub.py&#xa;LightHub" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=14;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="430" y="340" width="180" height="70" as="geometry" />
         </mxCell>
 
-        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;" edge="1" source="cli" target="lights" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <!-- Setas interface -> hub -->
+        <mxCell id="e_cli_hub" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" source="cli" target="hub" parent="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;" edge="1" source="tray" target="reactive" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="e_tray_hub" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" source="tray" target="hub" parent="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;" edge="1" source="alexa" target="api" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;" edge="1" source="api" target="lights" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="e_alexa_hub" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" source="alexa" target="hub" parent="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;" edge="1" source="lights" target="reactive" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <!-- Luzes -->
+        <mxCell id="bulbs_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#e57373;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="300" width="200" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;" edge="1" source="scenes" target="lights" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;" edge="1" source="screen" target="reactive" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;" edge="1" source="audio" target="reactive" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="bulbs_label" value="Tuya (rede local)" style="text;html=1;fontSize=11;fontStyle=5;align=center;verticalAlign=middle;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="700" y="300" width="200" height="20" as="geometry" />
         </mxCell>
 
-        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#82b366;" edge="1" source="reactive" target="monster" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="fita" value="💡 Fita LED&#xa;Monster Smart" style="shape=mxgraph.basic.rect;fillColor=#ffcdd2;strokeColor=#e57373;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="330" width="160" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#82b366;" edge="1" source="reactive" target="elgin" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#82b366;" edge="1" source="api" target="tv" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="quarto" value="💡 Lampada Bocal&#xa;Elgin" style="shape=mxgraph.basic.rect;fillColor=#ffcdd2;strokeColor=#e57373;fontStyle=1;fontSize=11;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="400" width="160" height="50" as="geometry" />
         </mxCell>
 
-        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#b85450;dashed=1;" edge="1" source="lights" target="devices" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#b85450;dashed=1;" edge="1" source="lights" target="aliases" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <!-- Seta hub -> luzes -->
+        <mxCell id="e_hub_bulbs" value="UDP/TCP local&#xa;(tinytuya)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#e57373;strokeWidth=2;fontSize=10;fontColor=#e57373;" edge="1" source="hub" target="bulbs_box" parent="1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;dashed=1;" edge="1" source="tray" target="cf" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <!-- Fontes de cor -->
+        <mxCell id="sources_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#7986cb;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="560" width="460" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;dashed=1;" edge="1" source="alexa" target="alexa-cloud" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-
-        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;dashed=1;strokeDashArray=8 4;" edge="1" source="smartlife" target="tuya" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;dashed=1;strokeDashArray=8 4;" edge="1" source="tuya" target="devices" parent="1">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="sources_label" value="Fontes de Cor" style="text;html=1;fontSize=11;fontStyle=5;align=center;verticalAlign=middle;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="280" y="560" width="460" height="20" as="geometry" />
         </mxCell>
 
-        <mxCell id="legend" value="Legend&#xa;─── Local protocol (UDP/TCP)&#xa;- - - Cloud/external&#xa;███ Data files (gitignored)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=9;align=left;verticalAlign=top;spacing=2;" vertex="1" parent="1">
-          <mxGeometry x="1150" y="75" width="200" height="80" as="geometry"/>
+        <mxCell id="screen" value="🖥 screen_source.py&#xa;cor dominante da tela&#xa;(mss + HSV)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c5cae9;strokeColor=#7986cb;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="300" y="590" width="190" height="65" as="geometry" />
         </mxCell>
 
-        <mxCell id="sync-label" value="sync screen / sync audio" style="text;html=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="500" y="365" width="200" height="20" as="geometry"/>
+        <mxCell id="audio_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c5cae9;strokeColor=#7986cb;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="585" width="220" height="165" as="geometry" />
+        </mxCell>
+
+        <mxCell id="audio_loopback" value="🔊 audio_source.py&#xa;loopback do speaker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c5cae9;strokeColor=#7986cb;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="595" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fft" value="FFT → 3 bandas&#xa;grave | medio | agudo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#7986cb;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="648" width="200" height="35" as="geometry" />
+        </mxCell>
+
+        <mxCell id="theme" value="🎨 color_themes.py&#xa;15 paletas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#7986cb;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="690" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Setas internas audio -->
+        <mxCell id="e1" style="rounded=1;strokeColor=#9fa8da;strokeWidth=1;" edge="1" source="audio_loopback" target="fft" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="rounded=1;strokeColor=#9fa8da;strokeWidth=1;" edge="1" source="fft" target="theme" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Seta sources -> reactive -->
+        <mxCell id="reactive" value="reactive.py&#xa;rate limit + smooth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#4db6ac;fontStyle=1;fontSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="430" y="460" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_screen_reactive" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#4db6ac;strokeWidth=2;" edge="1" source="screen" target="reactive" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_theme_reactive" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#4db6ac;strokeWidth=2;" edge="1" source="theme" target="reactive" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Seta reactive -> hub -->
+        <mxCell id="e_reactive_hub" value="(r, g, b)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#4db6ac;strokeWidth=2;fontSize=11;fontStyle=1;fontColor=#4db6ac;" edge="1" source="reactive" target="hub" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Setup box -->
+        <mxCell id="setup_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ffb74d;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="280" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="setup_label" value="Setup (uma vez)" style="text;html=1;fontSize=11;fontStyle=5;align=center;verticalAlign=middle;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="280" width="240" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="setup_1" value="1. iot.tuya.com → Cloud Project" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="305" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="setup_2" value="2. tinytuya wizard → devices.json" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="330" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="setup_3" value="3. aliases.json → nomes amigaveis" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="355" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="setup_4" value="local_key controla o dispositivo" style="text;html=1;fontSize=10;align=left;fontColor=#e65100;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="378" width="220" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- Nota -->
+        <mxCell id="note" value="Tudo em rede local.&#xa;Sem dependencia da nuvem&#xa;depois do setup inicial." style="shape=note;fillColor=#fff9c4;strokeColor=#fbc02d;fontSize=11;align=left;verticalAlign=top;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="430" width="200" height="80" as="geometry" />
         </mxCell>
 
       </root>
